@@ -1,2 +1,35 @@
-# auto-repair-management-system
-A layered MVC-based auto repair shop management system built with Python OOP. Manages the full service lifecycle: car acceptance, repairs, periodic services, PDR, car wash, invoicing, and final exit. Developed as the final project of the Python course at MFT.
+# 🚗 Auto Repair & Service Management System
+
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![Architecture](https://img.shields.io/badge/Architecture-Layered%20MVC%20%7C%20OOP-orange.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+> **پروژه پایانی دوره پایتون — مجتمع فنی تهران (MFT)**  
+> سیستم جامع مدیریت تعمیرگاه خودرو بر پایه معماری چندلایه‌ای MVC و اصول برنامه‌نویسی شیءگرا (OOP).
+
+---
+
+## 📝 Description (درباره پروژه)
+
+**Auto Repair & Service Management System** یک راهکار نرم‌افزاری ماژولار و مبتنی بر معماری چندلایه‌ای (Layered MVC) است که برای مدیریت دقیق چرخه خدمات در تعمیرگاه‌های خودرو طراحی شده است.
+
+این سیستم تمامی فرآیندها را از زمان ورود خودرو، ثبت مشخصات مشتری، ارائه خدمات مختلف (تعمیرات، سرویس دوره‌ای، صافکاری PDR و کارواش) تا صدور فاکتور مالی و ترخیص نهایی مدیریت می‌کند.
+
+### 🔑 ویژگی‌های اصلی پروژه:
+- **معماری چندلایه (MVC Architecture):** تفکیک کامل لایه‌های داده، منطق کسب‌وکار و واسط کاربری برای نگهداری و توسعه‌پذیری آسان.
+- **طراحی شیءگرا (OOP Principles):** بهره‌گیری از مفاهیم ارث‌بری (Inheritance)، ترکیب (Composition) و چندریختی (Polymorphism).
+- **مدیریت کامل خدمات:** پشتیبانی از انواع سرویس‌ها شامل تعمیرات، سرویس‌های دوره‌ای، صافکاری و کارواش.
+- **مدیریت مالی و ترخیص:** صدور فاکتور دقیق بر اساس سرویس‌های ارائه‌شده و کنترل خروج خودرو.
+
+---
+
+## 🏗️ ساختار پوشه‌بندی پروژه (Project Structure)
+```text
+├── model/            # ۱. لایه مدل (تعریف کلاس‌ها و موجودیت‌ها)
+├── utils/            # ۲. ابزارهای کمکی و اعتبارسنجی (validators.py)
+├── data_access/      # ۳. لایه دسترسی به داده (ارتباط با دیتابیس)
+├── service/          # ۴. لایه سرویس (منطق کسب‌وکار و قوانین تجاری)
+├── controller/       # ۵. لایه کنترلر (هماهنگ‌کننده میان View و Service)
+├── view/             # ۶. لایه واسط کاربری (فرم‌ها و پنجره‌ها)
+├── tests/            # تست‌های واحد نرم‌افزار
+└── main.py           # نقطه ورود و اجرای برنامه
