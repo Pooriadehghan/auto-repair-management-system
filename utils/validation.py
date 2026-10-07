@@ -1,6 +1,6 @@
 import re
 from datetime import date
-
+from persian_tools import plate
 
 class ValidationError:
     @staticmethod
@@ -62,3 +62,38 @@ class ValidationError:
             raise ValueError(message)
 
     @staticmethod
+    def plate_number_validation(plate_number, message: str = "error:invalid plate number!!!".title()):
+        if isinstance(plate_number,str) and plate.is_valid(plate_number.strip()):
+            return plate_number.strip()
+        else:
+            raise ValueError(message)
+
+
+    @staticmethod
+    def model_validation(model,message: str = "error:invalid model!!!".title()):
+        if isinstance(model,str) and re.match(r"^[a-zA-Z0-9_\s\-]{3,30}$", model):
+            return model.strip()
+        else:
+            raise ValueError(message)
+
+    @staticmethod
+    def year_validator(year, message: str = "error:invalid year!!!".title()):
+        if isinstance(year,int) and 2000<year<2026:
+            return year
+        else:
+            raise ValueError(message)
+
+    @staticmethod
+    def color_validation(color, message: str = "error:invalid color!!!".title()):
+        if isinstance(color,str) and re.match(r"^[a-zA-Z]{3,15}$", color):
+            return color.strip()
+        else:
+            raise ValueError(message)
+
+    @staticmethod
+    def vin_number_validator(vin_number, message: str = "error:invalid vin number!!!".title()):
+        if isinstance(vin_number,str) and re.match(r"^[A-HJ-NPR-Z0-9]{17}$", vin_number.strip().upper()):
+            return vin_number.strip().upper()
+        else:
+            raise ValueError(message)
+
