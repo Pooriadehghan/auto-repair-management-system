@@ -1,8 +1,10 @@
+from model.base import BaseModel
 from utils.validation import *
 
-class Invoice:
-    def __init__(self,invoice_id,car_id,total_service_cost,discount_amount,
-                 final_amount,payment_method,date_exit,time_exit):
+
+class Invoice(BaseModel):
+    def __init__(self, invoice_id, car_id, total_service_cost, discount_amount,
+                 final_amount, payment_method, date_exit, time_exit):
         self.invoice_id = invoice_id
         self.car_id = car_id
         self.total_service_cost = total_service_cost
@@ -11,7 +13,6 @@ class Invoice:
         self.payment_method = payment_method
         self.date_exit = date_exit
         self.time_exit = time_exit
-
 
     @property
     def invoice_id(self):
@@ -31,11 +32,11 @@ class Invoice:
 
     @property
     def total_service_cost(self):
-        return self.total_service_cost
+        return self._total_service_cost
 
     @total_service_cost.setter
     def total_service_cost(self, total_service_cost):
-        self.total_service_cost = Validation.total_service_cost_validator(total_service_cost)
+        self._total_service_cost = Validation.total_service_cost_validator(total_service_cost)
 
     @property
     def discount_amount(self):
@@ -43,7 +44,7 @@ class Invoice:
 
     @discount_amount.setter
     def discount_amount(self, discount_amount):
-        self._discount_amount = Validation.discount_validator(discount_amount)
+        self._discount_amount = Validation.discount_validator(discount_amount, self.total_service_cost)
 
     @property
     def final_amount(self):
@@ -51,7 +52,8 @@ class Invoice:
 
     @final_amount.setter
     def final_amount(self, final_amount):
-        self._final_amount = Validation.final_amount_validator(final_amount)
+        self._final_amount = Validation.final_amount_validator(final_amount,
+                                                               self.total_service_cost, self.discount_amount)
 
     @property
     def payment_method(self):
@@ -67,12 +69,12 @@ class Invoice:
 
     @date_exit.setter
     def date_exit(self, date_exit):
-        self._date_exit=Validation.date_validator(date_exit)
+        self._date_exit = Validation.date_validator(date_exit)
 
     @property
     def time_exit(self):
         return self._time_exit
 
     @time_exit.setter
-    def time_exit(self,time_exit):
-        self._time_exit=Validation.time_validator(time_exit)
+    def time_exit(self, time_exit):
+        self._time_exit = Validation.time_validator(time_exit)

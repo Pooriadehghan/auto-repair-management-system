@@ -1,7 +1,10 @@
+from model.base import BaseModel
 from utils.validation import *
 
-class Service:
-    def __init__(self,service_id,car_id,service_type,description,labor_cost,parts_cost,acceptance_date,acceptance_time):
+
+class Service(BaseModel):
+    def __init__(self, service_id, car_id, service_type, description, labor_cost, parts_cost, acceptance_date,
+                 acceptance_time):
         self.service_id = service_id
         self.car_id = car_id
         self.service_type = service_type
@@ -10,7 +13,6 @@ class Service:
         self.parts_cost = parts_cost
         self.acceptance_date = acceptance_date
         self.acceptance_time = acceptance_time
-
 
     @property
     def service_id(self):
@@ -44,13 +46,12 @@ class Service:
     def description(self, description):
         self._description = Validation.description_validator(description)
 
-
     @property
     def labor_cost(self):
         return self._labor_cost
 
     @labor_cost.setter
-    def labor_cost(self,labor_cost):
+    def labor_cost(self, labor_cost):
         self._labor_cost = Validation.labor_cost_validator(labor_cost)
 
     @property
@@ -67,7 +68,7 @@ class Service:
 
     @acceptance_date.setter
     def acceptance_date(self, acceptance_date):
-        self._acceptance_date = Validation.date_validator(acceptance_date,"error: invalid acceptance date!!!".title())
+        self._acceptance_date = Validation.date_validator(acceptance_date, "error: invalid acceptance date!!!".title())
 
     @property
     def acceptance_time(self):
@@ -75,10 +76,4 @@ class Service:
 
     @acceptance_time.setter
     def acceptance_time(self, acceptance_time):
-        self._acceptance_time = Validation.time_validator(acceptance_time,"error: invalid acceptance time!!!".title())
-
-
-
-
-
-
+        self._acceptance_time = Validation.time_validator(acceptance_time, "error: invalid acceptance time!!!".title())

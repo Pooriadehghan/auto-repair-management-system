@@ -1,6 +1,5 @@
 import re
 from datetime import date, time
-from persian_tools import plate
 
 
 class Validation:
@@ -62,9 +61,17 @@ class Validation:
         else:
             raise ValueError(message)
 
+    #
+    # @staticmethod
+    # def plate_number_validator(plate_number, message: str = "error:invalid plate number!!!".title()):
+    #     if isinstance(plate_number, str) and plate.is_valid(plate_number.strip()):
+    #         return plate_number.strip()
+    #     else:
+    #         raise ValueError(message)
+
     @staticmethod
     def plate_number_validator(plate_number, message: str = "error:invalid plate number!!!".title()):
-        if isinstance(plate_number, str) and plate.is_valid(plate_number.strip()):
+        if isinstance(plate_number, str) and re.match(r"^\d{2}[a-zA-Z]\d{3}iran|IRAN\d{2}$", plate_number):
             return plate_number.strip()
         else:
             raise ValueError(message)
@@ -243,9 +250,9 @@ class Validation:
 
     @staticmethod
     def discount_validator(discount, total_service_cost, message: str = "error:invalid discount!!!".title()):
-        if isinstance(discount, (int, float) and
-                                isinstance(total_service_cost, (int, float)) and
-                                0 <= discount <= total_service_cost):
+        if (isinstance(discount, (int, float)) and
+                isinstance(total_service_cost, (int, float)) and
+                0 <= discount <= total_service_cost):
             return discount
         else:
             raise ValueError(message)
@@ -253,11 +260,11 @@ class Validation:
     @staticmethod
     def final_amount_validator(final_amount, total_service_cost, discount,
                                message: str = "error:invalid final amount!!!".title()):
-        if isinstance(final_amount, (int, float) and
-                                    isinstance(total_service_cost, (int, float)) and
-                                    isinstance(discount, (int, float)) and
-                                    final_amount >= 0 and
-                                    final_amount == total_service_cost + discount):
+        if (isinstance(final_amount, (int, float)) and
+                isinstance(total_service_cost, (int, float)) and
+                isinstance(discount, (int, float)) and
+                final_amount >= 0 and
+                final_amount == total_service_cost - discount):
             return final_amount
         else:
             raise ValueError(message)
@@ -278,15 +285,15 @@ class Validation:
             raise ValueError(message)
 
     @staticmethod
-    def date_validator(date, message: str = "error:invalid date!!!".title()):
-        if isinstance(date, date):
-            return date
+    def date_validator(value, message: str = "error:invalid date!!!".title()):
+        if isinstance(value, date):
+            return value
         else:
             raise ValueError(message)
 
     @staticmethod
-    def time_validator(time, message: str = "error:invalid time!!!".title()):
-        if isinstance(time, time):
-            return time
+    def time_validator(value, message: str = "error:invalid time!!!".title()):
+        if isinstance(value, time):
+            return value
         else:
             raise ValueError(message)

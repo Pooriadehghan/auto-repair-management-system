@@ -1,18 +1,19 @@
+from model.base import BaseModel
 from utils.validation import *
 
 
-class Car:
+class Car(BaseModel):
     def __init__(self, car_id, name_customer, family_customer, phone_number, plate_number,
                  model, year, color, vin_number):
-        self._car_id = car_id
-        self._name_customer = name_customer
-        self._family_customer = family_customer
-        self._phone_number = phone_number
-        self._plate_number = plate_number
-        self._model = model
-        self._year = year
-        self._color = color
-        self._vin_number = vin_number
+        self.car_id = car_id
+        self.name_customer = name_customer
+        self.family_customer = family_customer
+        self.phone_number = phone_number
+        self.plate_number = plate_number
+        self.model = model
+        self.year = year
+        self.color = color
+        self.vin_number = vin_number
 
     @property
     def car_id(self):
