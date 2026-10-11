@@ -1,11 +1,9 @@
 import re
 from datetime import date
-
-
 from persian_tools import plate
 
 
-class ValidationError:
+class Validation:
     @staticmethod
     def name_validator(name, message: str = "error:invalid name!!!".title()):
         if isinstance(name, str) and re.match(r"^[a-zA-Z\s]{3,30}$", name.strip()):
