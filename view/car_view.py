@@ -96,6 +96,6 @@ table.column(7, width=80)
 table.column(8, width=80)
 table.column(9, width=100)
 
-table.place(x=260, y=20,height=300)
+table.place(x=260, y=20, height=300)
 
 win.mainloop()

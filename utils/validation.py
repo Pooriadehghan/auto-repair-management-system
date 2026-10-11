@@ -284,7 +284,6 @@ class Validation:
         else:
             raise ValueError(message)
 
-
     @staticmethod
     def time_validator(time, message: str = "error:invalid time!!!".title()):
         if isinstance(time, time):

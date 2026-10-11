@@ -47,7 +47,7 @@ Entry(win, textvariable=final_amount).place(x=130, y=180)
 # Payment_Method
 payment_method = StringVar()
 Label(win, text="Payment").place(x=20, y=220)
-combo_payment=ttk.Combobox(win, width=17, textvariable=payment_method,state="readonly")
+combo_payment = ttk.Combobox(win, width=17, textvariable=payment_method, state="readonly")
 combo_payment["values"] = (
     "Cash",
     "CreditCard",
@@ -59,31 +59,28 @@ combo_payment.place(x=130, y=220)
 # Date_Exit
 date_exit = StringVar()
 Label(win, text="Date_Exit").place(x=20, y=260)
-Entry(win, textvariable=date_exit,state="readonly").place(x=130, y=260)
+Entry(win, textvariable=date_exit, state="readonly").place(x=130, y=260)
 # Time_Exit
 time_exit = StringVar()
 Label(win, text="Time_Exit").place(x=20, y=300)
-Entry(win, textvariable=time_exit,state="readonly").place(x=130, y=300)
+Entry(win, textvariable=time_exit, state="readonly").place(x=130, y=300)
 # Find_By_Date
-find_by_date= IntVar()
+find_by_date = IntVar()
 Label(win, text="Find_By_Date").place(x=20, y=340)
 Entry(win, textvariable=find_by_date).place(x=130, y=340)
-
-
 
 Button(win, text="Save", width=7, command=save_click).place(x=20, y=380)
 Button(win, text="Edit", width=7, command=edit_click).place(x=100, y=380)
 Button(win, text="Remove", width=7, command=remove_click).place(x=180, y=380)
 
-#Find All
-Button(win,text="Find All",width=7,command=find_all_click).place(x=260,y=380)
+# Find All
+Button(win, text="Find All", width=7, command=find_all_click).place(x=260, y=380)
 
-table=ttk.Treeview(
+table = ttk.Treeview(
     win,
-    columns=(1,2,3,4,5,6,7,8),
+    columns=(1, 2, 3, 4, 5, 6, 7, 8),
     show="headings"
 )
-
 
 table.heading(1, text="Service_Id")
 table.heading(2, text="Car_Id")
@@ -94,15 +91,15 @@ table.heading(6, text="Payment")
 table.heading(7, text="Date")
 table.heading(8, text="Time")
 
-table.column(1,width=80)
-table.column(2,width=80)
-table.column(3,width=80)
-table.column(4,width=80)
-table.column(5,width=80)
-table.column(6,width=100)
-table.column(7,width=80)
-table.column(8,width=80)
+table.column(1, width=80)
+table.column(2, width=80)
+table.column(3, width=80)
+table.column(4, width=80)
+table.column(5, width=80)
+table.column(6, width=100)
+table.column(7, width=80)
+table.column(8, width=80)
 
-table.place(x=260,y=20,height=340)
+table.place(x=260, y=20, height=340)
 
 win.mainloop()
