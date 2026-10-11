@@ -1,5 +1,5 @@
 import re
-from datetime import date
+from datetime import date, time
 from persian_tools import plate
 
 
@@ -277,3 +277,17 @@ class Validation:
         else:
             raise ValueError(message)
 
+    @staticmethod
+    def date_validator(date, message: str = "error:invalid date!!!".title()):
+        if isinstance(date, date):
+            return date
+        else:
+            raise ValueError(message)
+
+
+    @staticmethod
+    def time_validator(time, message: str = "error:invalid time!!!".title()):
+        if isinstance(time, time):
+            return time
+        else:
+            raise ValueError(message)
