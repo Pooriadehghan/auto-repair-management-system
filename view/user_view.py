@@ -61,7 +61,7 @@ Button(win,text="Find All",width=7,command=find_all_click).place(x=260,y=340)
 
 Button(win, text="Save", width=7, command=save_click).place(x=20, y=340)
 Button(win, text="Edit", width=7, command=edit_click).place(x=100, y=340)
-Button(win, text="Delete", width=7, command=remove_click).place(x=180, y=340)
+Button(win, text="Remove", width=7, command=remove_click).place(x=180, y=340)
 
 
 table=ttk.Treeview(

@@ -21,7 +21,7 @@ def find_all_click():
 
 win = Tk()
 win.title("Car View")
-win.geometry("1085x450")
+win.geometry("1050x450")
 
 # Car_Id
 car_id = IntVar()
@@ -62,12 +62,12 @@ Entry(win, textvariable=vin_number).place(x=110, y=340)
 
 # Find_By_Plate
 find_by_plate = StringVar()
-Label(win, text="Find_By_Plate").place(x=280, y=340)
-Entry(win, textvariable=find_by_plate).place(x=385, y=340)
+Label(win, text="Find_By_Plate").place(x=260, y=340)
+Entry(win, textvariable=find_by_plate).place(x=365, y=340)
 
 Button(win, text="Save", width=7, command=save_click).place(x=20, y=400)
 Button(win, text="Edit", width=7, command=edit_click).place(x=100, y=400)
-Button(win, text="Delete", width=7, command=remove_click).place(x=180, y=400)
+Button(win, text="Remove", width=7, command=remove_click).place(x=180, y=400)
 Button(win, text="Find All", width=7, command=find_all_click).place(x=260, y=400)
 
 table = ttk.Treeview(
@@ -96,6 +96,6 @@ table.column(7, width=80)
 table.column(8, width=80)
 table.column(9, width=100)
 
-table.place(x=290, y=20)
+table.place(x=260, y=20,height=300)
 
 win.mainloop()

@@ -65,7 +65,7 @@ Entry(win,textvariable=find_by_id).place(x=315,y=300)
 
 Button(win, text="Save", width=7, command=save_click).place(x=20, y=340)
 Button(win, text="Edit", width=7, command=edit_click).place(x=100, y=340)
-Button(win, text="Delete", width=7, command=remove_click).place(x=180, y=340)
+Button(win, text="Remove", width=7, command=remove_click).place(x=180, y=340)
 Button(win,text="Calculate Total",width=14,command=calculate_total_click).place(x=260, y=340)
 
 
@@ -93,6 +93,6 @@ table.column(6,width=80)
 table.column(7,width=80)
 table.column(8,width=80)
 
-table.place(x=250,y=20)
+table.place(x=250,y=20,height=260)
 
 win.mainloop()
