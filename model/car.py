@@ -3,12 +3,8 @@ from utils.validation import *
 
 
 class Car(BaseModel):
-    def __init__(self, car_id, name_customer, family_customer, phone_number, plate_number,
-                 model, year, color, vin_number):
+    def __init__(self, car_id, plate_number,model, year, color, vin_number):
         self.car_id = car_id
-        self.name_customer = name_customer
-        self.family_customer = family_customer
-        self.phone_number = phone_number
         self.plate_number = plate_number
         self.model = model
         self.year = year
@@ -23,30 +19,6 @@ class Car(BaseModel):
     def car_id(self, car_id):
         self._car_id = car_id
 
-    @property
-    def name_customer(self):
-        return self._name_customer
-
-    @name_customer.setter
-    def name_customer(self, name_customer):
-        self._name_customer = Validation.name_validator(name_customer, "Error:invalid name customer".title())
-
-    @property
-    def family_customer(self):
-        return self._family_customer
-
-    @family_customer.setter
-    def family_customer(self, family_customer):
-        self._family_customer = Validation.family_validator(family_customer, "Error:invalid family customer".title())
-
-    @property
-    def phone_number(self):
-        return self._phone_number
-
-    @phone_number.setter
-    def phone_number(self, phone_number):
-        self._phone_number = Validation.phone_number_validator(phone_number,
-                                                               "Error:invalid customer phone number".title())
 
     @property
     def plate_number(self):

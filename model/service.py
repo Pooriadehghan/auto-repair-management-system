@@ -32,7 +32,7 @@ class Service(BaseModel):
 
     @property
     def service_type(self):
-        return self._service_id
+        return self._service_type
 
     @service_type.setter
     def service_type(self, service_type):
@@ -77,3 +77,8 @@ class Service(BaseModel):
     @acceptance_time.setter
     def acceptance_time(self, acceptance_time):
         self._acceptance_time = Validation.time_validator(acceptance_time, "error: invalid acceptance time!!!".title())
+
+
+    @property
+    def total_cost(self):
+        return self.labor_cost + self.parts_cost
