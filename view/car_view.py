@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
@@ -33,7 +34,9 @@ win = Tk()
 win.title("Car View")
 win.geometry("1085x335")
 
-car_img = Image.open("car_view.jpg")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(current_dir, "car_view.jpg")
+car_img=Image.open(image_path)
 resized_img = car_img.resize((280, 250))
 bg_photo = ImageTk.PhotoImage(resized_img)
 lbl_photo = Label(win, image=bg_photo)

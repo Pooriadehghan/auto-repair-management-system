@@ -3,6 +3,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from PIL import Image, ImageTk
 from model.user import User
+import os
 
 
 def reset_click():
@@ -12,8 +13,6 @@ def reset_click():
     national_id.set("")
     phone_number.set("")
     table.selection_remove(table.selection())
-
-
 
 
 def save_click():
@@ -32,8 +31,12 @@ win = Tk()
 win.title("User View")
 win.geometry("880x330")
 
-welcome_img = Image.open("welcome_view.jpg")
+current_dir = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(current_dir, "welcome_view.jpg")
+
+welcome_img = Image.open(image_path)
 resized_img = welcome_img.resize((150, 150))
+
 bg_photo = ImageTk.PhotoImage(resized_img)
 lbl_photo = Label(win, image=bg_photo)
 lbl_photo.image = bg_photo
