@@ -29,7 +29,7 @@ def remove_click():
 
 win = Tk()
 win.title("User View")
-win.geometry("880x330")
+win.geometry("980x330")
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(current_dir, "welcome_view.jpg")
@@ -40,7 +40,7 @@ resized_img = welcome_img.resize((150, 150))
 bg_photo = ImageTk.PhotoImage(resized_img)
 lbl_photo = Label(win, image=bg_photo)
 lbl_photo.image = bg_photo
-lbl_photo.place(x=720, y=60)
+lbl_photo.place(x=820, y=60)
 
 # User_ID
 user_id = IntVar()
@@ -63,16 +63,6 @@ phone_number = StringVar()
 Label(win, text="Phone Num").place(x=20, y=180)
 Entry(win, textvariable=phone_number).place(x=100, y=180)
 
-# ----------------------------------------------------------------------
-"""
-username , password از این بخش پروژه حذف شدن ولی بصورت کامنت قرار میگیرن تا بعدا در آپدیت پروژه بتونیم بازهم این 2 مورد رو به پروژه اضافه کنیم
-"""
-# Username
-# username = StringVar()
-# Label(win, text="Username").place(x=20, y=220)
-# Entry(win, textvariable=username).place(x=100, y=220)
-# Password
-# -------------------------------------------------------------------------------
 # Find_By_Id
 find = StringVar()
 Label(win, text="Find By Id").place(x=250, y=20)
@@ -89,7 +79,7 @@ Button(win, text="Remove", width=7, command=remove_click).place(x=180, y=230)
 
 table = ttk.Treeview(
     win,
-    column=(1, 2, 3, 4, 5,),
+    column=(1, 2, 3, 4, 5, 6),
     show='headings'
 )
 
@@ -98,18 +88,16 @@ table.heading(2, text="Name")
 table.heading(3, text="Family")
 table.heading(4, text="National Id")
 table.heading(5, text="Phone Num")
+table.heading(6, text="Car Id")
 # ---------------------------------------------
-# table.heading(6, text="Username")
-# table.heading(7, text="Password")
 
 table.column(1, width=60)
 table.column(2, width=100)
 table.column(3, width=100)
 table.column(4, width=100)
 table.column(5, width=100)
+table.column(6, width=100)
 # -----------------------------------------------------
-# table.column(6, width=100)
-# table.column(7, width=100)
 
 table.place(x=250, y=60)
 

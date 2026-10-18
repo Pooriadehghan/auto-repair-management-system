@@ -3,13 +3,14 @@ from utils.validation import *
 
 
 class Car(BaseModel):
-    def __init__(self, car_id, plate_number,model, year, color, vin_number):
+    def __init__(self, car_id, plate_number, model, year, color, vin_number, owner):
         self.car_id = car_id
         self.plate_number = plate_number
         self.model = model
         self.year = year
         self.color = color
         self.vin_number = vin_number
+        self.owner = owner
 
     @property
     def car_id(self):
@@ -18,7 +19,6 @@ class Car(BaseModel):
     @car_id.setter
     def car_id(self, car_id):
         self._car_id = car_id
-
 
     @property
     def plate_number(self):
@@ -59,3 +59,11 @@ class Car(BaseModel):
     @vin_number.setter
     def vin_number(self, vin_number):
         self._vin_number = Validation.vin_number_validator(vin_number)
+
+    @property
+    def owner(self):
+        return self._owner
+
+    @owner.setter
+    def owner(self, owner):
+        self._owner = owner

@@ -3,13 +3,13 @@ from utils.validation import *
 
 
 class User(BaseModel):
-    def __init__(self, user_id, name, family, national_id, phone_number):
+    def __init__(self, user_id, name, family, national_id, phone_number, car=None):
         self.user_id = user_id
         self.name = name
         self.family = family
         self.national_id = national_id
         self.phone_number = phone_number
-
+        self.car = car
 
     @property
     def user_id(self):
@@ -51,3 +51,10 @@ class User(BaseModel):
     def phone_number(self, phone_number):
         self._phone_number = Validation.phone_number_validator(phone_number)
 
+    @property
+    def car(self):
+        return self._car
+
+    @car.setter
+    def car(self, car):
+        self._car = car

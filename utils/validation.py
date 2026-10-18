@@ -297,3 +297,10 @@ class Validation:
             return value
         else:
             raise ValueError(message)
+
+    @staticmethod
+    def status_validator(status, message: str = "error:invalid status!!!".title()):
+        valid_statuses = ("in_progress", "completed", "exited")
+        if status not in valid_statuses:
+            raise ValueError(f"Error: Invalid Status! Allowed: {valid_statuses}")
+        return status
