@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 
@@ -7,7 +8,12 @@ class UserDA:
         self.cursor = None
 
     def connect(self):
-        self.connection = sqlite3.connect('repair_shop.db')
+        base_dir = os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        )
+        db_path = os.path.join(base_dir, "repair_shop.db")
+
+        self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
         self.cursor.execute("PRAGMA foreign_keys = ON")
 
@@ -35,7 +41,7 @@ class UserDA:
                    national_id  = ?,
                    phone_number = ?
                WHERE user_id = ?""",
-            [user.name, user.family, user.national_id, user.phone_number,user.user_id]
+            [user.name, user.family, user.national_id, user.phone_number, user.user_id]
         )
         self.disconnect(commit=True)
 
@@ -43,6 +49,20 @@ class UserDA:
         self.connect()
         self.cursor.execute("DELETE FROM USERS WHERE user_id = ?", [user_id])
         self.disconnect(commit=True)
+
+    def find_by_national_id(self, national_id):
+        self.connect()
+        self.cursor.execute("SELECT * FROM USERS WHERE national_id = ?", [national_id])
+        user = self.cursor.fetchone()
+        self.disconnect()
+        return user
+
+    def find_by_phone_number(self, phone_number):
+        self.connect()
+        self.cursor.execute("SELECT * FROM USERS WHERE phone_number = ?", [phone_number])
+        user = self.cursor.fetchone()
+        self.disconnect()
+        return user
 
     def find_by_id(self, user_id):
         self.connect()

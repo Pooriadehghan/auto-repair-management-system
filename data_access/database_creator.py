@@ -1,8 +1,12 @@
 import sqlite3
+import os
 
 
 def create_connection():
-    connection = sqlite3.connect('repair_shop.db')
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    db_path = os.path.join(base_dir, "repair_shop.db")
+
+    connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")
 
@@ -21,7 +25,7 @@ def create_connection():
                    CREATE TABLE IF NOT EXISTS CARS
                    (
                        car_id       INTEGER PRIMARY KEY AUTOINCREMENT,
-                       national_id      INTEGER NOT NULL,
+                       national_id  INTEGER NOT NULL,
                        plate_number TEXT    NOT NULL UNIQUE,
                        model        TEXT    NOT NULL,
                        year         INTEGER NOT NULL,

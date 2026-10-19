@@ -1,6 +1,6 @@
+import os
 import sqlite3
 from model.car import Car
-from view.car_view import owner_national_id
 
 
 class CarDA:
@@ -8,10 +8,20 @@ class CarDA:
         self.connection = None
         self.cursor = None
 
+    # def connect(self):
+    #     self.connection = sqlite3.connect('repair_shop.db')
+    #     self.cursor = self.connection.cursor()
+    #     self.cursor.execute("""PRAGMA foreign_keys=ON;""")
+
     def connect(self):
-        self.connection = sqlite3.connect('repair_shop.db')
+        base_dir = os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))
+        )
+        db_path = os.path.join(base_dir, "repair_shop.db")
+
+        self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
-        self.cursor.execute("""PRAGMA foreign_keys=ON;""")
+        self.cursor.execute("PRAGMA foreign_keys = ON")
 
     def disconnect(self, commit=False):
         if commit:
@@ -62,11 +72,20 @@ class CarDA:
         self.disconnect()
         return car_list
 
-    def find_by_national_id(self, national_id):
+    def find_by_plate(self, plate):
         self.connect()
-        self.cursor.execute("SELECT * FROM CARS WHERE national_id = ?", [national_id])
+        self.cursor.execute("SELECT * FROM CARS WHERE plate = ?", [plate])
         car_list = self.cursor.fetchall()
         self.disconnect()
         return car_list
 
-    # todo:از استاد پرسیده شود که در این بخش جستجو با کد ملی به جای پلاک مورد ثبول است یا خیر
+    def find_by_vin(self, vin_number):
+        self.connect()
+        try:
+            self.cursor.execute(
+                "SELECT * FROM CARS WHERE vin_number = ?",
+                [vin_number]
+            )
+            return self.cursor.fetchone()
+        finally:
+            self.disconnect()
