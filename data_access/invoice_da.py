@@ -1,5 +1,6 @@
 import os
 import sqlite3
+from utils.validation import Validation
 
 
 class InvoiceDA:
@@ -29,8 +30,11 @@ class InvoiceDA:
         self.cursor.close()
         self.connection.close()
 
+
     def save(self, invoice):
         self.connect()
+        date_exit, time_exit, acceptance_timestamp=Validation.format_datetime_fields(invoice)
+
         self.cursor.execute(
             """INSERT INTO INVOICES (car_id,
                                      parts_cost,
@@ -48,16 +52,18 @@ class InvoiceDA:
                 invoice.total_service_cost,
                 invoice.discount_amount,
                 invoice.payment_method,
-                invoice.date_exit,
-                invoice.time_exit,
+                date_exit,
+                time_exit,
                 invoice.status,
-                invoice.acceptance_timestamp
+                acceptance_timestamp
             )
         )
         self.disconnect(commit=True)
 
     def update(self, invoice):
         self.connect()
+        date_exit, time_exit, acceptance_timestamp=Validation.format_datetime_fields(invoice)
+
         self.cursor.execute(
             """UPDATE INVOICES
                SET car_id               = ?,
@@ -76,10 +82,10 @@ class InvoiceDA:
                 invoice.total_service_cost,
                 invoice.discount_amount,
                 invoice.payment_method,
-                invoice.date_exit,
-                invoice.time_exit,
+                date_exit,
+                time_exit,
                 invoice.status,
-                invoice.acceptance_timestamp,
+                acceptance_timestamp,
                 invoice.invoice_id
             )
         )

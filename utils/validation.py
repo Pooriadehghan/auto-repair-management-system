@@ -304,3 +304,24 @@ class Validation:
         if status not in valid_statuses:
             raise ValueError(f"Error: Invalid Status! Allowed: {valid_statuses}")
         return status
+    @staticmethod
+    def format_datetime_fields(invoice):
+        date_exit = (
+            invoice.date_exit.strftime("%Y-%m-%d")
+            if hasattr(invoice.date_exit, "strftime")
+            else str(invoice.date_exit)
+        )
+
+        time_exit = (
+            invoice.time_exit.strftime("%H:%M:%S")
+            if hasattr(invoice.time_exit, "strftime")
+            else str(invoice.time_exit)
+        )
+
+        acceptance_timestamp = (
+            invoice.acceptance_timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            if hasattr(invoice.acceptance_timestamp, "strftime")
+            else str(invoice.acceptance_timestamp)
+        )
+
+        return date_exit, time_exit, acceptance_timestamp

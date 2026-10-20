@@ -14,9 +14,9 @@ from service.user_service import UserService
 # =======================================
 # Data Access Test
 # =======================================
-# user_da = UserDA()
+user_da = UserDA()
 
-user1 = User(1, "ali", "amiri", "0441254698", "09127455896")
+user1 = User(1, "ali", "amiri", "0441025986", "09127455896")
 user2 = User(2, "reza", "moradi", "1234567890", "09191234567")
 
 # user_da.save(user1)
@@ -37,7 +37,8 @@ user2 = User(2, "reza", "moradi", "1234567890", "09191234567")
 # =======================================
 # Service Test PASSED
 # =======================================
-# user_service = UserService()
-# user_service.save(user1)
-# print(user_service.find_all())
+user_service = UserService()
+User.phone_number="09126598321"
+user_service.update(user1)
+print(user_service.find_all())
 # print("user save successfully..")

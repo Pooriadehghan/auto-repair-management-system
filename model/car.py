@@ -1,4 +1,5 @@
 from model.base import BaseModel
+from model.user import User
 from utils.validation import *
 
 
@@ -66,4 +67,7 @@ class Car(BaseModel):
 
     @owner.setter
     def owner(self, owner):
-        self._owner = owner
+        if isinstance(owner, User):
+            self._owner = owner.national_id
+        else:
+            self._owner = owner

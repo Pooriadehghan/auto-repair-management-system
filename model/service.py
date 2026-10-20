@@ -5,7 +5,6 @@ from utils.validation import *
 class Service(BaseModel):
     def __init__(self, service_id, service_type, description, labor_cost):
         self.service_id = service_id
-
         self.service_type = service_type
         self.description = description
         self.labor_cost = labor_cost

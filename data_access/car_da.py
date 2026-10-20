@@ -18,7 +18,7 @@ class CarDA:
             os.path.dirname(os.path.abspath(__file__))
         )
         db_path = os.path.join(base_dir, "repair_shop.db")
-
+        # print(">>> Connecting to Database Path:", db_path)
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
         self.cursor.execute("PRAGMA foreign_keys = ON")
@@ -31,10 +31,12 @@ class CarDA:
 
     def save(self, car):
         self.connect()
+        national_id = car.owner.national_id if hasattr(car.owner, 'national_id') else car.owner
+        # print("DEBUG - extracted national_id:", national_id)
         self.cursor.execute(
             """INSERT INTO CARS (national_id, plate_number, model, year, color, vin_number)
                VALUES (?, ?, ?, ?, ?, ?)""",
-            [car.owner, car.plate_number, car.model, car.year, car.color, car.vin_number]
+            [national_id, car.plate_number, car.model, car.year, car.color, car.vin_number]
         )
         self.disconnect(commit=True)
 
@@ -72,12 +74,15 @@ class CarDA:
         self.disconnect()
         return car_list
 
-    def find_by_plate(self, plate):
+    def find_by_plate(self, plate_number):
         self.connect()
-        self.cursor.execute("SELECT * FROM CARS WHERE plate = ?", [plate])
-        car_list = self.cursor.fetchall()
+        self.cursor.execute(
+            "SELECT * FROM CARS WHERE plate_number = ?",
+            [plate_number]
+        )
+        result = self.cursor.fetchone()
         self.disconnect()
-        return car_list
+        return result
 
     def find_by_vin(self, vin_number):
         self.connect()
