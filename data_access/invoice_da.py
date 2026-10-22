@@ -126,16 +126,40 @@ class InvoiceDA:
         self.disconnect()
         return invoice_list
 
-    def find_by_date_range(self, start_date, end_date):
+    # def find_by_date_range(self, start_date, end_date=None):
+    #     self.connect()
+    #     self.cursor.execute(
+    #         """
+    #         SELECT *
+    #         FROM INVOICES
+    #         WHERE acceptance_timestamp BETWEEN ? AND ?
+    #         """,
+    #         (start_date, end_date),
+    #     )
+    #     rows = self.cursor.fetchall()
+    #     self.disconnect()
+    #      return rows
+
+    def find_by_date_range(self, start_date, end_date=None):
         self.connect()
-        self.cursor.execute(
-            """
-            SELECT *
-            FROM INVOICES
-            WHERE acceptance_timestamp BETWEEN ? AND ?
-            """,
-            (start_date, end_date),
-        )
+        if end_date:
+            self.cursor.execute(
+                """
+                SELECT *
+                FROM invoices
+                WHERE date (acceptance_timestamp) BETWEEN date (?) AND date (?)
+                """,
+                (start_date, end_date)
+            )
+        else:
+            self.cursor.execute(
+                """
+                SELECT *
+                FROM invoices
+                WHERE date (acceptance_timestamp) >= date (?)
+                """,
+                (start_date,)
+            )
         rows = self.cursor.fetchall()
         self.disconnect()
         return rows

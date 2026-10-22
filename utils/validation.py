@@ -19,7 +19,7 @@ class Validation:
 
     @staticmethod
     def national_id_validator(national_id, message: str = "error:invalid national id!!!".title()):
-        if isinstance(national_id, str) and re.match(r"^\d{3}\d{6}\d|\d{10}$", national_id):
+        if isinstance(national_id, str) and re.match(r"^\d{10}$", national_id):
             return national_id
         else:
             raise ValueError(message)
@@ -304,6 +304,7 @@ class Validation:
         if status not in valid_statuses:
             raise ValueError(f"Error: Invalid Status! Allowed: {valid_statuses}")
         return status
+
     @staticmethod
     def format_datetime_fields(invoice):
         date_exit = (

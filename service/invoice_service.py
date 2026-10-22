@@ -1,4 +1,5 @@
 from data_access.invoice_da import InvoiceDA
+from model.invoice import Invoice
 
 
 class InvoiceService:
@@ -28,3 +29,20 @@ class InvoiceService:
 
     def find_all(self):
         return self.da.find_all()
+
+    def register_exit(self, invoice_id, date_exit, time_exit):
+        invoice = InvoiceDA().find_by_id(invoice_id)
+        if not invoice:
+            return False, "Invoice not found"
+
+        invoice.date_exit = date_exit
+        invoice.time_exit = time_exit
+        invoice.status = "exited"
+
+        InvoiceDA().update(invoice)
+        return True, invoice
+
+    def find_by_date_range(self, start_date, end_date=None):
+        rows = InvoiceDA().find_by_date_range(start_date, end_date)
+        invoice_list = [Invoice(*row) for row in rows]
+        return True, invoice_list

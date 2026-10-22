@@ -21,10 +21,12 @@ class UserService:
         if not user.phone_number or len(user.phone_number) < 11:
             raise ValueError("ERROR: Invalid Phone Number")
 
-        if not user.national_id:
+        self.national_id_validator(user.national_id)
+        national_id_user = self.da.find_by_national_id(user.national_id)
+        if national_id_user and national_id_user[0] != user.user_id:
             raise ValueError("ERROR: National ID cannot be empty")
 
-        self.da.update(user)
+        return self.da.update(user)
 
     def delete_by_id(self, user_id):
         if not self.da.find_by_id(user_id):
@@ -40,5 +42,7 @@ class UserService:
     def find_by_phone_number(self, phone_number):
         return self.da.find_by_phone_number(phone_number)
 
-    def find_all(self):
-        return self.da.find_all()
+    @classmethod
+    def find_all(cls):
+        da = UserDA()
+        return da.find_all()

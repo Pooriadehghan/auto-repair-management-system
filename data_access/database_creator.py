@@ -3,9 +3,9 @@ import os
 
 
 def create_connection():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, "repair_shop.db")
-
+    print(f"Connecting to DB at: {db_path} | Exists: {os.path.exists(db_path)}")
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
     cursor.execute("PRAGMA foreign_keys=ON")
@@ -17,8 +17,10 @@ def create_connection():
                        name         TEXT NOT NULL,
                        family       TEXT NOT NULL,
                        national_id  TEXT NOT NULL UNIQUE,
-                       phone_number TEXT NOT NULL
-                   )
+                       phone_number TEXT NOT NULL,
+                       car_id       INTEGER UNIQUE,
+                       FOREIGN KEY (car_id) REFERENCES CARS (car_id)
+                   );
                    """)
 
     cursor.execute("""
