@@ -7,7 +7,7 @@ class ServiceController:
 
     @classmethod
     @exception_handling
-    def save(cls, service_type, description, labor_cost):
+    def save(cls, service_id, service_type, description, labor_cost):
         service = Service(None, service_type, description, labor_cost)
         ServiceService.save(service)
         return True, service

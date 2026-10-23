@@ -1,4 +1,5 @@
 from data_access.user_da import UserDA
+from utils.validation import Validation
 
 
 class UserService:
@@ -21,7 +22,7 @@ class UserService:
         if not user.phone_number or len(user.phone_number) < 11:
             raise ValueError("ERROR: Invalid Phone Number")
 
-        self.national_id_validator(user.national_id)
+        Validation.national_id_validator(user.national_id)
         national_id_user = self.da.find_by_national_id(user.national_id)
         if national_id_user and national_id_user[0] != user.user_id:
             raise ValueError("ERROR: National ID cannot be empty")
