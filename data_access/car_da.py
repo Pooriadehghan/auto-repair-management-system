@@ -14,10 +14,9 @@ class CarDA:
     #     self.cursor.execute("""PRAGMA foreign_keys=ON;""")
 
     def connect(self):
-        base_dir = os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))
-        )
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(base_dir, "repair_shop.db")
+
         # print(">>> Connecting to Database Path:", db_path)
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
@@ -34,24 +33,25 @@ class CarDA:
         national_id = car.owner.national_id if hasattr(car.owner, 'national_id') else car.owner
         # print("DEBUG - extracted national_id:", national_id)
         self.cursor.execute(
-            """INSERT INTO CARS (national_id, plate_number, model, year, color, vin_number)
+            """INSERT INTO CARS (plate_number,model,year,color,vin_number,national_id)
                VALUES (?, ?, ?, ?, ?, ?)""",
-            [national_id, car.plate_number, car.model, car.year, car.color, car.vin_number]
+            [car.plate_number,car.model,car.year,car.color,car.vin_number,national_id]
         )
         self.disconnect(commit=True)
 
     def update(self, car):
         self.connect()
+        national_id = car.owner.national_id if hasattr(car.owner, 'national_id') else car.owner
         self.cursor.execute(
             """UPDATE CARS
-               SET national_id  = ?,
-                   plate_number = ?,
+               SET plate_number = ?,
                    model        = ?,
                    year         = ?,
                    color        = ?,
-                   vin_number   = ?
+                   vin_number   = ?,
+                   national_id  = ?
                WHERE car_id = ?""",
-            [car.owner, car.plate_number, car.model, car.year, car.color, car.vin_number, car.car_id]
+            [car.plate_number, car.model, car.year, car.color, car.vin_number, national_id, car.car_id]
         )
         self.disconnect(commit=True)
 

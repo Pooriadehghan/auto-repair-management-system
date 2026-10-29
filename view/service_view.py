@@ -4,7 +4,6 @@ from tkinter import messagebox as msg
 from tkinter import ttk
 
 
-
 class ServiceView:
 
     def save_click(self):
@@ -23,7 +22,7 @@ class ServiceView:
             msg.showerror("Error", "Service Could not be Saved")
 
     def edit_click(self):
-        status,massage=ServiceController.update(
+        status, massage = ServiceController.update(
             self.service_id.get(),
             self.service_type.get(),
             self.description.get(),
@@ -46,23 +45,23 @@ class ServiceView:
                 self.show_on_table()
             else:
                 msg.showerror("Error", "Service Could not be Removed")
+
     # ========================================================================================================
     def select_service(self):
-        select_items=self.table.selection()
+        select_items = self.table.selection()
 
         if not select_items:
             return
 
-        select_item=self.table.item(select_items[0],"values")
+        select_item = self.table.item(select_items[0], "values")
 
-        if not select_item or len(select_item)<4:
+        if not select_item or len(select_item) < 4:
             return
 
         self.service_id.set(select_item[0])
         self.service_type.set(select_item[1])
         self.description.set(select_item[2])
         self.labor_cost.set(select_item[3])
-
 
     def reset_click(self):
         self.service_id.set(0)
@@ -72,22 +71,29 @@ class ServiceView:
         self.table.selection_remove(*self.table.selection())
 
     def clear_table(self):
-        self.table.delete(*self.table.selection())
+        self.table.delete(*self.table.get_children())
 
     def show_on_table(self):
         self.clear_table()
-        status,services=ServiceController.find_all()
+        status, services = ServiceController.find_all()
         if status and services:
             for service in services:
                 self.table.insert('', 'end', values=service)
-# ========================================================================================================
 
+    # ========================================================================================================
+    def search_by_id(self):
+        service_id = self.find_by_id.get()
+        self.clear_table()
 
+        if not service_id:
+            self.show_on_table()
+            return
 
+        status, services = ServiceController.find_by_id(service_id)
+        print(services)
 
-
-
-
+        if status and services:
+            self.table.insert('', 'end', values=services)
 
     def __init__(self):
         win = Tk()
@@ -125,17 +131,20 @@ class ServiceView:
         # Find_By_Id
         self.find_by_id = IntVar()
         Label(win, text="Find By Id").place(x=250, y=20)
-        Entry(win, textvariable=self.find_by_id).place(x=315, y=20)
+        self.find_entry = Entry(win, textvariable=self.find_by_id)
+        self.find_entry.place(x=315, y=20)
 
         Button(win, text="Save", width=7, command=self.save_click).place(x=20, y=295)
         Button(win, text="Edit", width=7, command=self.edit_click).place(x=100, y=295)
         Button(win, text="Remove", width=7, command=self.remove_click).place(x=180, y=295)
+        Button(win, text="New", width=7, command=self.reset_click).place(x=20, y=265)
 
         self.table = ttk.Treeview(
             win,
             columns=(1, 2, 3, 4),
             show="headings"
         )
+        self.show_on_table()
 
         self.table.heading(1, text="Service_Id")
         self.table.heading(2, text="Service_Type")
@@ -149,4 +158,11 @@ class ServiceView:
 
         self.table.place(x=250, y=60, height=260)
 
+        self.table.bind("<<TreeviewSelect>>", self.select_service)
+        self.find_entry.bind("<KeyRelease>", self.search_by_id)
+        self.show_on_table()
+
         win.mainloop()
+
+
+ui = ServiceView()

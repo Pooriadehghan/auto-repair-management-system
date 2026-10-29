@@ -113,10 +113,10 @@ class Validation:
 
     @staticmethod
     def service_type_validator(service_type, message: str = "error:invalid service_type!!!".title()):
-        if isinstance(service_type, str) and re.match(
-                r"^(repairs|periodic_service|pdr|car_wash|carwash|periodicservice)$",
-                service_type.strip().lower()):
-            return service_type.strip().lower()
+        if isinstance(service_type, str) and re.fullmatch(
+                r"(Repair|periodic_service|Pdr|Car Wash|carwash|Periodic Service)",
+                service_type.strip()):
+            return service_type.strip()
         else:
             raise ValueError(message)
 

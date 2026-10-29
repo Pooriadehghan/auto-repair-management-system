@@ -1,14 +1,15 @@
 from data_access.car_da import CarDA
-
+from data_access.user_da import UserDA
 
 class CarService:
     def __init__(self):
         self.da = CarDA()
+        self.user_da = UserDA()
 
     def save(self, car):
         if self.da.find_by_plate(car.plate_number):
             raise ValueError("ERROR:plate number already exists!!!")
-        if self.da.find_by_vin(car.vin):
+        if self.da.find_by_vin(car.vin_number):
             raise ValueError("ERROR:vin number already exists!!!")
 
         if hasattr(car, 'owner') and car.owner:
@@ -18,14 +19,14 @@ class CarService:
         self.da.save(car)
 
     def update(self, car):
-        if not self.da.find_by_id(car.id):
+        if not self.da.find_by_id(car.car_id):
             raise ValueError("ERROR:Car Not Found!!!")
         duplicate_plate_car = self.da.find_by_plate(car.plate_number)
-        if duplicate_plate_car is not None and duplicate_plate_car.id != car.id:
+        if duplicate_plate_car is not None and duplicate_plate_car[0] != car.car_id:
             raise ValueError("ERROR: Plate number already exists!")
 
-        duplicate_vin_car = self.da.find_by_vin(car.vin)
-        if duplicate_vin_car is not None and duplicate_vin_car.id != car.id:
+        duplicate_vin_car = self.da.find_by_vin(car.vin_number)
+        if duplicate_vin_car is not None and duplicate_vin_car[0] != car.car_id:
             raise ValueError("ERROR: VIN number already exists!")
 
         if hasattr(car, 'owner') and car.owner:
@@ -48,5 +49,5 @@ class CarService:
     def find_by_plate(self, plate_number):
         return self.da.find_by_plate(plate_number)
 
-    def find_by_vin(self, vin):
-        return self.da.find_by_vin(vin)
+    def find_by_vin(self, vin_number):
+        return self.da.find_by_vin(vin_number)

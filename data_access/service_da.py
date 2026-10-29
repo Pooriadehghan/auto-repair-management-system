@@ -13,9 +13,7 @@ class ServiceDA:
     #     self.cursor.execute("PRAGMA foreign_keys = ON")
 
     def connect(self):
-        base_dir = os.path.dirname(
-            os.path.dirname(os.path.abspath(__file__))
-        )
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         db_path = os.path.join(base_dir, "repair_shop.db")
 
         self.connection = sqlite3.connect(db_path)

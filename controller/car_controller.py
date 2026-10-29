@@ -4,25 +4,26 @@ from utils.decorator import exception_handling
 
 
 class CarController:
+    car = CarService()
 
     @classmethod
     @exception_handling
-    def save(cls, plate_number, model, year, color, vin_number, owner):
+    def save(cls, car_id,plate_number, model, year, color, vin_number, owner):
         car = Car(None, plate_number, model, year, color, vin_number, owner)
-        CarService.save(car)
+        cls.car.save(car)
         return True, car
 
     @classmethod
     @exception_handling
     def update(cls, car_id, plate_number, model, year, color, vin_number, owner):
         car = Car(car_id, plate_number, model, year, color, vin_number, owner)
-        CarService.update(car)
+        cls.car.update(car)
         return True, car
 
     @classmethod
     @exception_handling
     def delete(cls, car_id):
-        delete_car=CarService.delete_by_id(car_id)
+        delete_car = cls.car.delete_by_id(car_id)
         return True, delete_car
 
     @classmethod
@@ -34,17 +35,23 @@ class CarController:
     @classmethod
     @exception_handling
     def find_by_id(cls, car_id):
-        car = CarService.find_by_id(car_id)
+        car = cls.car.find_by_id(car_id)
         return True, car
 
     @classmethod
     @exception_handling
     def find_by_plate_number(cls, plate_number):
-        car=CarService.find_by_plate(plate_number)
+        car = cls.car.find_by_plate(plate_number)
         return True, car
 
     @classmethod
     @exception_handling
-    def find_by_vin(cls, vin):
-        car=CarService.find_by_vin(vin)
+    def find_by_vin(cls, vin_number):
+        car = cls.car.find_by_vin(vin_number)
         return True, car
+
+    @classmethod
+    @exception_handling
+    def find_all(cls):
+        cars = cls.car.find_all()
+        return True, cars

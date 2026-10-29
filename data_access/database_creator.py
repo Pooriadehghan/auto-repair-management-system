@@ -27,12 +27,12 @@ def create_connection():
                    CREATE TABLE IF NOT EXISTS CARS
                    (
                        car_id       INTEGER PRIMARY KEY AUTOINCREMENT,
-                       national_id  TEXT    NOT NULL,
                        plate_number TEXT    NOT NULL UNIQUE,
                        model        TEXT    NOT NULL,
                        year         INTEGER NOT NULL,
                        color        TEXT    NOT NULL,
                        vin_number   TEXT    NOT NULL UNIQUE,
+                       national_id  TEXT    NOT NULL,
 
                        FOREIGN KEY (national_id)
                            REFERENCES USERS (national_id)

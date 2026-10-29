@@ -55,7 +55,7 @@ class UserView:
         self.phone_number.set("")
         self.table.selection_remove(*self.table.selection())
 
-    def select_product(self, event_info):
+    def select_user(self):
         selected_items = self.table.selection()
 
         if not selected_items:
@@ -83,7 +83,7 @@ class UserView:
                 self.table.insert('', 'end', values=user)
 
     # ========================================================================================
-    def search_by_id(self, event):
+    def search_by_id(self):
         user_id = self.find_by_id.get().strip()
 
         self.clear_table()
@@ -99,7 +99,7 @@ class UserView:
             self.table.insert("", "end", values=user)
 
     # ========================================================================================
-    def search_by_national_id(self, event):
+    def search_by_national_id(self):
         national_id = self.find_by_national_id.get().strip()
 
         self.clear_table()
@@ -169,7 +169,7 @@ class UserView:
                                   column=(1, 2, 3, 4, 5, 6),
                                   show='headings'
                                   )
-        self.table.bind("<<TreeviewSelect>>", self.select_product)
+        self.table.bind("<<TreeviewSelect>>", self.select_user)
         self.show_on_table()
 
         self.table.heading(1, text="User ID")
@@ -187,7 +187,7 @@ class UserView:
         self.table.column(5, width=100)
         self.table.column(6, width=80)
         # -----------------------------------------------------
-        self.table.bind("<<TreeviewSelect>>", self.select_product)
+        self.table.bind("<<TreeviewSelect>>", self.select_user)
         self.find_entry.bind("<KeyRelease>", self.search_by_id)
         self.find_entry2.bind("<KeyRelease>", self.search_by_national_id)
         self.table.place(x=250, y=60)
