@@ -269,13 +269,13 @@ class Validation:
         else:
             raise ValueError(message)
 
-    @staticmethod
-    def payment_method_validator(payment_method, message: str = "error:invalid payment method!!!".title()):
-        if isinstance(payment_method, str) and payment_method.strip() != "" and re.match(r"^(cash|card|pos|transfer)$",
-                                                                                         payment_method.strip().lower()):
-            return payment_method.strip().lower()
-        else:
-            raise ValueError(message)
+    # @staticmethod
+    # def payment_method_validator(payment_method, message: str = "error:invalid payment method!!!".title()):
+    #     if isinstance(payment_method, str) and payment_method.strip() != "" and re.match(r"^(cash|card|pos|transfer|Cash|CreditCard|Pos|Transfer)$",
+    #                                                                                      payment_method):
+    #         return payment_method
+    #     else:
+    #         raise ValueError(message)
 
     @staticmethod
     def receiver_name_validator(receiver_name, message: str = "error:invalid receiver name!!!".title()):
@@ -300,7 +300,7 @@ class Validation:
 
     @staticmethod
     def status_validator(status, message: str = "error:invalid status!!!".title()):
-        valid_statuses = ("in_progress", "completed", "exited")
+        valid_statuses = ("in progress", "completed", "exited")
         if status not in valid_statuses:
             raise ValueError(f"Error: Invalid Status! Allowed: {valid_statuses}")
         return status
@@ -310,19 +310,19 @@ class Validation:
         date_exit = (
             invoice.date_exit.strftime("%Y-%m-%d")
             if hasattr(invoice.date_exit, "strftime")
-            else str(invoice.date_exit)
+            else invoice.date_exit
         )
 
         time_exit = (
             invoice.time_exit.strftime("%H:%M:%S")
             if hasattr(invoice.time_exit, "strftime")
-            else str(invoice.time_exit)
+            else invoice.time_exit
         )
 
         acceptance_timestamp = (
             invoice.acceptance_timestamp.strftime("%Y-%m-%d %H:%M:%S")
             if hasattr(invoice.acceptance_timestamp, "strftime")
-            else str(invoice.acceptance_timestamp)
+            else invoice.acceptance_timestamp
         )
 
         return date_exit, time_exit, acceptance_timestamp

@@ -3,7 +3,7 @@ from utils.validation import *
 
 
 class Invoice(BaseModel):
-    def __init__(self, invoice_id, car_id, parts_cost=0, total_service_cost=0, discount_amount=0
+    def __init__(self, invoice_id, car_id, parts_cost=0, total_service_cost=0, discount_amount=0,final_amount=None
                  , payment_method="transfer", date_exit=None, time_exit=None, status="in_progress",
                  acceptance_timestamp=None):
         self.invoice_id = invoice_id
@@ -64,13 +64,13 @@ class Invoice(BaseModel):
         return (self._total_service_cost + self._parts_cost) - self._discount_amount
 
     # -----------------------------------------------
-    @property
-    def payment_method(self):
-        return self._payment_method
-
-    @payment_method.setter
-    def payment_method(self, payment_method):
-        self._payment_method = Validation.payment_method_validator(payment_method)
+    # @property
+    # def payment_method(self):
+    #     return self._payment_method
+    #
+    # @payment_method.setter
+    # def payment_method(self, payment_method):
+    #     self._payment_method = Validation.payment_method_validator(payment_method)
 
     @property
     def date_exit(self):
@@ -112,3 +112,5 @@ class Invoice(BaseModel):
             self._acceptance_timestamp = None
         else:
             self._acceptance_timestamp = str(acceptance_timestamp)
+
+

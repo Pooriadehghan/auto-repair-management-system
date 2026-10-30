@@ -13,16 +13,13 @@ from controller.invoice_controller import InvoiceController
 class InvoiceView:
 
     def save_click(self):
-        status, massage = InvoiceController.save(
-            self.invoice_id.get(),
+        status, message = InvoiceController.save(
             self.car_id.get(),
             self.parts_cost.get(),
             self.total_service_cost.get(),
             self.discount_amount.get(),
-            self.final_amount.get(),
             self.payment_method.get(),
             self.status.get(),
-            self.acceptance_timestamp.get()
         )
         if status:
             msg.showinfo("Success", "Invoice saved successfully!")
@@ -32,74 +29,125 @@ class InvoiceView:
             msg.showerror("Error", "Invoice save failed!")
 
     def edit_click(self):
-        pass
+        status, message = InvoiceController.update(
+            self.invoice_id.get(),
+            self.parts_cost.get(),
+            self.total_service_cost.get(),
+            self.discount_amount.get(),
+            self.payment_method.get(),
+            self.status.get(),
+        )
+
+        if status:
+            msg.showinfo("Success", "Invoice updated successfully!")
+            self.reset_form()
+            self.show_on_table()
+        else:
+            msg.showerror("Error", "Invoice update failed!")
 
     def remove_click(self):
-        pass
+        if msg.askyesno("Remove Invoice", "Do you really want to remove this invoice?"):
+            status, message = InvoiceController.delete(self.invoice_id.get())
+            if status:
+                msg.showinfo("Success", "Invoice removed successfully!")
+                self.reset_form()
+                self.show_on_table()
+            else:
+                msg.showerror("Error", "Invoice remove failed!")
 
     def exit_click(self):
         selected_item = self.table.focus()
         if not selected_item:
             msg.showerror("Error", "Please select a car first!")
             return
+        if self.status.get() == "exited":
+            msg.showwarning("Warning", "This invoice has already been exited!")
+            return
         now = datetime.now()
         self.date_exit.set(now.strftime("%Y-%m-%d"))
         self.time_exit.set(now.strftime("%H:%M:%S"))
-        self.table.item(selected_item, tags=("exited",))
-        msg.showinfo("Success", "Car exited successfully!")
+        status, message = InvoiceController.register_exit(
+            self.invoice_id.get(),
+            self.date_exit.get(),
+            self.time_exit.get()
+        )
+        if status:
+            msg.showinfo("Success", "Car exited successfully!")
+            self.reset_form()
+            self.show_on_table()
+        else:
+            msg.showerror("Error", "Car exited failed!")
 
     base_cost = 0
 
-    def select_row(self, event):
+    def select_row(self, event=None):
         selected_item = self.table.focus()
-        if selected_item:
-            row_data = self.table.item(selected_item, "values")
+        if not selected_item:
+            return
+        selected_item = self.table.item(selected_item, "values")
 
-            self.car_id.set(row_data[1])
-            self.parts_cost.set(row_data[2])
-            self.total_service_cost.set(row_data[3])
-            self.discount_amount.set(row_data[4])
+        if selected_item:
+            self.invoice_id.set(selected_item[0])
+            self.car_id.set(selected_item[1])
+            self.parts_cost.set(selected_item[2])
+            self.total_service_cost.set(selected_item[3])
+            self.discount_amount.set(selected_item[4])
+            self.final_amount.set(selected_item[5])
+            self.payment_method.set(selected_item[6])
+            self.date_exit.set(selected_item[7])
+            self.time_exit.set(selected_item[8])
+            self.status.set(selected_item[9])
+            self.acceptance_timestamp.set(selected_item[10])
 
     def reset_form(self):
-        pass
+        self.invoice_id.set(0)
+        self.car_id.set(0)
+        self.parts_cost.set(0.0)
+        self.total_service_cost.set(0.0)
+        self.discount_amount.set(0.0)
+        self.final_amount.set(0.0)
+        self.payment_method.set("Cash")
+        self.date_exit.set("")
+        self.time_exit.set("")
+        self.status.set("in progress")
+        self.acceptance_timestamp.set("")
 
     def clear_table(self):
-        pass
+        self.table.delete(*self.table.get_children())
 
     def show_on_table(self):
-        pass
-
+        self.clear_table()
+        status, invoices = InvoiceController.find_all()
+        if status and invoices:
+            for invoice in invoices:
+                self.table.insert('', 'end', values=invoice, tags=(invoice[9],))
     # =========================================================================================================
 
     def update_final(self, *args):
         try:
             parts = self.parts_cost.get()
-        except:
+        except (ValueError,tkinter.TclError):
             parts = 0
 
         try:
             service = self.total_service_cost.get()
-        except:
+        except (ValueError,tkinter.TclError):
             service = 0
 
         try:
             discount = self.discount_amount.get()
-        except:
+        except (ValueError,tkinter.TclError):
             discount = 0
 
         total = (parts + service) - discount
-        self.final_amount.set(total if total >= 0 else 0)
-
-        self.parts_cost.trace_add("write", self.update_final)
-        self.total_service_cost.trace_add("write", self.update_final)
-        self.discount_amount.trace_add("write", self.update_final)
+        self.final_amount.set(max(total, 0))
 
     # =========================================================================================================
 
     def __init__(self):
         win = Tk()
         win.title('Invoice View')
-        win.geometry('1250x565')
+        win.geometry('1330x565')
 
         current_dir = os.path.dirname(os.path.abspath(__file__))
         image_path = os.path.join(current_dir, "invoice_view.jpg")
@@ -117,22 +165,22 @@ class InvoiceView:
         # Car_Id
         self.car_id = IntVar()
         Label(win, text="Car Id").place(x=20, y=60)
-        Entry(win, textvariable=self.car_id, state="readonly").place(x=130, y=60)
+        Entry(win, textvariable=self.car_id).place(x=130, y=60)
         # Parts_Cost
-        self.parts_cost = IntVar()
+        self.parts_cost = DoubleVar()
         Label(win, text="Parts Cost").place(x=20, y=100)
         Entry(win, textvariable=self.parts_cost).place(x=130, y=100)
 
         # Total_Service_Cost
-        self.total_service_cost = IntVar()
+        self.total_service_cost = DoubleVar()
         Label(win, text="Total Service Cost").place(x=20, y=140)
         Entry(win, textvariable=self.total_service_cost).place(x=130, y=140)
         # Discount_Amount
-        self.discount_amount = IntVar()
+        self.discount_amount = DoubleVar()
         Label(win, text="Discount Amount").place(x=20, y=180)
         Entry(win, textvariable=self.discount_amount).place(x=130, y=180)
         # Final_Amount
-        self.final_amount = IntVar()
+        self.final_amount = DoubleVar()
         Label(win, text="Final Amount").place(x=20, y=220)
         Entry(win, textvariable=self.final_amount, state="readonly").place(x=130, y=220)
         # Payment_Method
@@ -162,7 +210,7 @@ class InvoiceView:
         Label(win, text="Status").place(x=20, y=380)
         combo_status = ttk.Combobox(win, width=17, textvariable=self.status, state="readonly")
         combo_status["values"] = (
-            "in_progress",
+            "in progress",
             "completed",
             "exited"
         )
@@ -223,20 +271,22 @@ class InvoiceView:
         self.table.column(8, width=80)
         self.table.column(9, width=80)
         self.table.column(10, width=80)
-        self.table.column(11, width=80)
+        self.table.column(11, width=150)
 
         self.table.place(x=280, y=60, height=340)
         self.table.bind("<<TreeviewSelect>>", self.select_row)
         # =========================================================================================================
-        self.table.tag_configure("in_progress", background="yellow")
+        self.table.tag_configure("in progress", background="yellow")
         self.table.tag_configure("completed", background="green")
         self.table.tag_configure("exited", background="red")
-
+        self.parts_cost.trace_add("write", self.update_final)
+        self.total_service_cost.trace_add("write", self.update_final)
+        self.discount_amount.trace_add("write", self.update_final)
         # clean table
 
         # for invoice in invoice_list:
         #     table.insert("", "end", values=invoice.to_tuple(), tags=invoice.status)
-
+        self.show_on_table()
         win.mainloop()
 
 

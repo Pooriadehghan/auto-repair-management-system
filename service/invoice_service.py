@@ -1,3 +1,4 @@
+from datetime import datetime
 from data_access.invoice_da import InvoiceDA
 from model.invoice import Invoice
 
@@ -12,6 +13,7 @@ class InvoiceService:
             raise ValueError("invoice already exists!")
         if self.da.find_by_car_id(invoice.car_id):
             raise ValueError("invoice car already exists!")
+        invoice.acceptance_timestamp = datetime.now()
         self.da.save(invoice)
 
     def update(self, invoice):
@@ -25,24 +27,31 @@ class InvoiceService:
         return self.da.delete_by_id(invoice_id)
 
     def find_by_id(self, invoice_id):
-        return self.da.find_by_id(invoice_id)
+        row= self.da.find_by_id(invoice_id)
+        if row:
+            return Invoice(*row)
 
+        return None
     def find_all(self):
         return self.da.find_all()
 
     def register_exit(self, invoice_id, date_exit, time_exit):
-        invoice = InvoiceDA().find_by_id(invoice_id)
-        if not invoice:
+        row = self.da.find_by_id(invoice_id)
+
+        if not row:
             return False, "Invoice not found"
+
+        invoice = Invoice(*row)
 
         invoice.date_exit = date_exit
         invoice.time_exit = time_exit
         invoice.status = "exited"
 
-        InvoiceDA().update(invoice)
+        self.da.update(invoice)
+
         return True, invoice
 
     def find_by_date_range(self, start_date, end_date=None):
-        rows = InvoiceDA().find_by_date_range(start_date, end_date)
+        rows = self.da.find_by_date_range(start_date, end_date)
         invoice_list = [Invoice(*row) for row in rows]
         return True, invoice_list

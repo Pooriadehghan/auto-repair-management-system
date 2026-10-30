@@ -53,7 +53,7 @@ def create_connection():
                    """)
 
     cursor.execute("""
-                   CREATE TABLE IF NOT EXISTS invoices
+                   CREATE TABLE IF NOT EXISTS INVOICES
                    (
                        invoice_id           INTEGER PRIMARY KEY AUTOINCREMENT,
                        car_id               INTEGER NOT NULL,
@@ -69,7 +69,7 @@ def create_connection():
                        date_exit            TEXT,
                        time_exit            TEXT,
                        status               TEXT    NOT NULL DEFAULT 'in_progress'
-                           CHECK (status IN ('in_progress', 'completed', 'exited')),
+                           CHECK (status IN ('in progress', 'completed', 'exited')),
                        acceptance_timestamp TEXT,
 
                        FOREIGN KEY (car_id)
