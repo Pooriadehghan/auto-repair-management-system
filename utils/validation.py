@@ -1,5 +1,5 @@
 import re
-from datetime import date, time
+from datetime import date, time, datetime
 
 
 class Validation:
@@ -286,16 +286,16 @@ class Validation:
 
     @staticmethod
     def date_validator(value, message: str = "error:invalid date!!!".title()):
-        if isinstance(value, date):
-            return value
-        else:
+        try:
+            return datetime.strptime(value, "%Y-%m-%d").date()
+        except ValueError:
             raise ValueError(message)
 
     @staticmethod
     def time_validator(value, message: str = "error:invalid time!!!".title()):
-        if isinstance(value, time):
-            return value
-        else:
+        try:
+            return datetime.strptime(value, "%H:%M:%S").time()
+        except ValueError:
             raise ValueError(message)
 
     @staticmethod

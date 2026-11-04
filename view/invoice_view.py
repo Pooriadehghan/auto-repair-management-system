@@ -111,6 +111,8 @@ class InvoiceView:
         self.time_exit.set("")
         self.status.set("in progress")
         self.acceptance_timestamp.set("")
+        self.table.selection_remove(*self.table.selection())
+        self.table.focus("")
 
     def clear_table(self):
         self.table.delete(*self.table.get_children())
@@ -118,29 +120,62 @@ class InvoiceView:
     def show_on_table(self):
         self.clear_table()
         status, invoices = InvoiceController.find_all()
+
         if status and invoices:
             for invoice in invoices:
                 self.table.insert('', 'end', values=invoice, tags=(invoice[9],))
+
     # =========================================================================================================
 
     def update_final(self, *args):
         try:
             parts = self.parts_cost.get()
-        except (ValueError,tkinter.TclError):
+        except (ValueError, tkinter.TclError):
             parts = 0
 
         try:
             service = self.total_service_cost.get()
-        except (ValueError,tkinter.TclError):
+        except (ValueError, tkinter.TclError):
             service = 0
 
         try:
             discount = self.discount_amount.get()
-        except (ValueError,tkinter.TclError):
+        except (ValueError, tkinter.TclError):
             discount = 0
 
         total = (parts + service) - discount
         self.final_amount.set(max(total, 0))
+
+    # =========================================================================================================
+    def search_by_date(self, event):
+        start_date = self.find_by_date.get()
+        end_date = self.end_date.get()
+
+        self.clear_table()
+
+        if not start_date:
+            self.show_on_table()
+            return
+
+        status, invoices = InvoiceController.find_by_date_range(
+            start_date,
+            end_date if end_date else None
+        )
+        if status and invoices:
+            for invoice in invoices:
+                self.table.insert('', 'end', values=(
+                    invoice.invoice_id,
+                    invoice.car_id,
+                    invoice.parts_cost,
+                    invoice.total_service_cost,
+                    invoice.discount_amount,
+                    invoice.final_amount,
+                    invoice.payment_method,
+                    invoice.date_exit,
+                    invoice.time_exit,
+                    invoice.status,
+                    invoice.acceptance_timestamp
+                ), tags=(invoice.status,))
 
     # =========================================================================================================
 
@@ -225,13 +260,14 @@ class InvoiceView:
         # Find_By_Date
         self.find_by_date = StringVar()
         Label(win, text=" Start Date").place(x=365, y=20)
-        Entry(win, textvariable=self.find_by_date).place(x=430, y=20)
+        self.start_date_entry = Entry(win, textvariable=self.find_by_date)
+        self.start_date_entry.place(x=430, y=20)
 
         # Find_By_Date
         self.end_date = StringVar()
         Label(win, text=" End Date").place(x=575, y=20)
-        Entry(win, textvariable=self.end_date).place(x=640, y=20)
-
+        self.end_date_entry = Entry(win, textvariable=self.end_date)
+        self.end_date_entry.place(x=640, y=20)
         # =========================================================================================================
 
         # =========================================================================================================
@@ -282,6 +318,8 @@ class InvoiceView:
         self.parts_cost.trace_add("write", self.update_final)
         self.total_service_cost.trace_add("write", self.update_final)
         self.discount_amount.trace_add("write", self.update_final)
+        self.start_date_entry.bind("<KeyRelease>", self.search_by_date)
+        self.end_date_entry.bind("<KeyRelease>", self.search_by_date)
         # clean table
 
         # for invoice in invoice_list:

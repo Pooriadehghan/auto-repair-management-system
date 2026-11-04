@@ -47,7 +47,7 @@ class ServiceView:
                 msg.showerror("Error", "Service Could not be Removed")
 
     # ========================================================================================================
-    def select_service(self):
+    def select_service(self, event):
         select_items = self.table.selection()
 
         if not select_items:
@@ -81,7 +81,7 @@ class ServiceView:
                 self.table.insert('', 'end', values=service)
 
     # ========================================================================================================
-    def search_by_id(self):
+    def search_by_id(self, event=None):
         service_id = self.find_by_id.get()
         self.clear_table()
 
@@ -129,7 +129,7 @@ class ServiceView:
         Entry(win, textvariable=self.labor_cost).place(x=100, y=140)
 
         # Find_By_Id
-        self.find_by_id = IntVar()
+        self.find_by_id = StringVar()
         Label(win, text="Find By Id").place(x=250, y=20)
         self.find_entry = Entry(win, textvariable=self.find_by_id)
         self.find_entry.place(x=315, y=20)
