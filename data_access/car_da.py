@@ -37,6 +37,14 @@ class CarDA:
                VALUES (?, ?, ?, ?, ?, ?)""",
             [car.plate_number,car.model,car.year,car.color,car.vin_number,national_id]
         )
+        car_id=self.cursor.lastrowid
+        self.cursor.execute(
+            "SELECT user_id, national_id, car_id FROM USERS WHERE national_id = ?",
+            [national_id]
+        )
+        # print("National ID:", national_id)
+        # print("Updated Rows:", self.cursor.rowcount)
+        print("USER AFTER UPDATE:", self.cursor.fetchone())
         self.disconnect(commit=True)
 
     def update(self, car):

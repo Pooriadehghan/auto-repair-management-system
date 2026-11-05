@@ -249,10 +249,11 @@ class Validation:
             raise ValueError(message)
 
     @staticmethod
-    def discount_validator(discount, total_service_cost, message: str = "error:invalid discount!!!".title()):
+    def discount_validator(discount, total_service_cost,parts_cost, message: str = "error:invalid discount!!!".title()):
         if (isinstance(discount, (int, float)) and
                 isinstance(total_service_cost, (int, float)) and
-                0 <= discount <= total_service_cost):
+                isinstance(parts_cost,(int,float)) and
+                0 <= discount <= total_service_cost+parts_cost):
             return discount
         else:
             raise ValueError(message)

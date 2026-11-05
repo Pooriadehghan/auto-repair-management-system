@@ -73,5 +73,6 @@ class UserDA:
         self.connect()
         self.cursor.execute("SELECT * FROM USERS")
         user_list = self.cursor.fetchall()
+        print(user_list)
         self.disconnect()
         return user_list
