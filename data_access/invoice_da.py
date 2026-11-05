@@ -28,10 +28,9 @@ class InvoiceDA:
         self.cursor.close()
         self.connection.close()
 
-
     def save(self, invoice):
         self.connect()
-        date_exit, time_exit, acceptance_timestamp=Validation.format_datetime_fields(invoice)
+        date_exit, time_exit, acceptance_timestamp = Validation.format_datetime_fields(invoice)
 
         self.cursor.execute(
             """INSERT INTO INVOICES (car_id,
@@ -60,7 +59,7 @@ class InvoiceDA:
 
     def update(self, invoice):
         self.connect()
-        date_exit, time_exit, acceptance_timestamp=Validation.format_datetime_fields(invoice)
+        date_exit, time_exit, acceptance_timestamp = Validation.format_datetime_fields(invoice)
 
         self.cursor.execute(
             """UPDATE INVOICES

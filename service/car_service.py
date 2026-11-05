@@ -1,6 +1,7 @@
 from data_access.car_da import CarDA
 from data_access.user_da import UserDA
 
+
 class CarService:
     def __init__(self):
         self.da = CarDA()

@@ -38,7 +38,7 @@ user2 = User(2, "reza", "moradi", "1234567890", "09191234567")
 # Service Test PASSED
 # =======================================
 user_service = UserService()
-User.phone_number="09126598321"
+User.phone_number = "09126598321"
 user_service.update(user1)
 print(user_service.find_all())
 # print("user save successfully..")

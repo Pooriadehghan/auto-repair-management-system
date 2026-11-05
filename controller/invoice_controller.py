@@ -12,7 +12,7 @@ class InvoiceController:
              discount_amount=0, payment_method="transfer",
              status="in_progress", acceptance_timestamp=None):
         invoice = Invoice(None, car_id, parts_cost, total_service_cost,
-                          discount_amount,None, payment_method, None, None,
+                          discount_amount, None, payment_method, None, None,
                           status, acceptance_timestamp)
         cls.invoice.save(invoice)
         return True, invoice

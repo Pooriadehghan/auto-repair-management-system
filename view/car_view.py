@@ -52,7 +52,7 @@ class CarView:
                 msg.showerror("Error", "Car Could not be  Removed")
 
     # ========================================================================
-    def select_car(self,event):
+    def select_car(self, event):
         select_items = self.table.selection()
 
         if not select_items:
@@ -91,7 +91,7 @@ class CarView:
                 self.table.insert('', 'end', values=car)
 
     # ========================================================================
-    def search_by_plate(self,event):
+    def search_by_plate(self, event):
         car_plate = self.find_by_plate.get()
         self.clear_table()
 

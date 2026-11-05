@@ -3,7 +3,7 @@ from utils.validation import *
 
 
 class Invoice(BaseModel):
-    def __init__(self, invoice_id, car_id, parts_cost=0, total_service_cost=0, discount_amount=0,final_amount=None
+    def __init__(self, invoice_id, car_id, parts_cost=0, total_service_cost=0, discount_amount=0, final_amount=None
                  , payment_method="transfer", date_exit=None, time_exit=None, status="in_progress",
                  acceptance_timestamp=None):
         self.invoice_id = invoice_id
@@ -112,5 +112,3 @@ class Invoice(BaseModel):
             self._acceptance_timestamp = None
         else:
             self._acceptance_timestamp = str(acceptance_timestamp)
-
-

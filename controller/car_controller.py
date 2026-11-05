@@ -8,7 +8,7 @@ class CarController:
 
     @classmethod
     @exception_handling
-    def save(cls, car_id,plate_number, model, year, color, vin_number, owner):
+    def save(cls, car_id, plate_number, model, year, color, vin_number, owner):
         car = Car(None, plate_number, model, year, color, vin_number, owner)
         cls.car.save(car)
         return True, car

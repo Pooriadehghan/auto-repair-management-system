@@ -4,7 +4,7 @@ from utils.decorator import exception_handling
 
 
 class ServiceController:
-    service=ServiceService()
+    service = ServiceService()
 
     @classmethod
     @exception_handling

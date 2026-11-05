@@ -33,11 +33,11 @@ class CarDA:
         national_id = car.owner.national_id if hasattr(car.owner, 'national_id') else car.owner
         # print("DEBUG - extracted national_id:", national_id)
         self.cursor.execute(
-            """INSERT INTO CARS (plate_number,model,year,color,vin_number,national_id)
+            """INSERT INTO CARS (plate_number, model, year, color, vin_number, national_id)
                VALUES (?, ?, ?, ?, ?, ?)""",
-            [car.plate_number,car.model,car.year,car.color,car.vin_number,national_id]
+            [car.plate_number, car.model, car.year, car.color, car.vin_number, national_id]
         )
-        car_id=self.cursor.lastrowid
+        car_id = self.cursor.lastrowid
         self.cursor.execute(
             "SELECT user_id, national_id, car_id FROM USERS WHERE national_id = ?",
             [national_id]

@@ -55,7 +55,7 @@ class UserView:
         self.phone_number.set("")
         self.table.selection_remove(*self.table.selection())
 
-    def select_user(self,event):
+    def select_user(self, event):
         selected_items = self.table.selection()
 
         if not selected_items:
@@ -83,7 +83,7 @@ class UserView:
                 self.table.insert('', 'end', values=user)
 
     # ========================================================================================
-    def search_by_id(self,event=None):
+    def search_by_id(self, event=None):
         user_id = self.find_by_id.get().strip()
 
         self.clear_table()
@@ -99,7 +99,7 @@ class UserView:
             self.table.insert("", "end", values=user)
 
     # ========================================================================================
-    def search_by_national_id(self,event=None):
+    def search_by_national_id(self, event=None):
         national_id = self.find_by_national_id.get().strip()
 
         self.clear_table()

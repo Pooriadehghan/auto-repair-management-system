@@ -17,7 +17,6 @@ class Service(BaseModel):
     def service_id(self, service_id):
         self._service_id = service_id
 
-
     @property
     def service_type(self):
         return self._service_type

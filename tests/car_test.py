@@ -1,7 +1,6 @@
 from data_access.car_da import CarDA
 from model.car import Car
 
-
 # ==================================================
 # CAR TEST ---PASSED
 # ==================================================
@@ -17,11 +16,10 @@ from model.car import Car
 # ==================================================
 car_da = CarDA()
 
-car1=Car(1,"12m123iran44","benz c200",2016,"black","EWE12365478965475","1234567890")
-car2=Car(2,"12m123iran40","bmw 730li",2024,"white","EWE12365478966587","0441025986")
+car1 = Car(1, "12m123iran44", "benz c200", 2016, "black", "EWE12365478965475", "1234567890")
+car2 = Car(2, "12m123iran40", "bmw 730li", 2024, "white", "EWE12365478966587", "0441025986")
 
 car_da.save(car1)
-
 
 # print(car_da.find_all())
 # print(car_da.find_by_id(1))
@@ -31,4 +29,3 @@ car_da.save(car1)
 # ==================================================
 
 # ==================================================
-

@@ -27,11 +27,12 @@ class InvoiceService:
         return self.da.delete_by_id(invoice_id)
 
     def find_by_id(self, invoice_id):
-        row= self.da.find_by_id(invoice_id)
+        row = self.da.find_by_id(invoice_id)
         if row:
             return Invoice(*row)
 
         return None
+
     def find_all(self):
         return self.da.find_all()
 
