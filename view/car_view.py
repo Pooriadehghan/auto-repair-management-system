@@ -109,7 +109,7 @@ class CarView:
     def __init__(self):
         win = Tk()
         win.title("Car View")
-        win.geometry("1205x395")
+        win.geometry("1205x430")
 
         current_dir = os.path.dirname(os.path.abspath(__file__))
         image_path = os.path.join(current_dir, "car_view.jpg")
@@ -144,11 +144,13 @@ class CarView:
         self.vin_number = StringVar()
         Label(win, text="Vin Num").place(x=20, y=220)
         Entry(win, textvariable=self.vin_number).place(x=110, y=220)
+        Label(win, text="17 characters (0-9, A-Z). I, O, Q are not allowed.", font=("Arial", 8),
+              fg="gray").place(x=20, y=245)
 
         # Owner National id
         self.owner_national_id = StringVar()
-        Label(win, text="Owner Nat ID").place(x=20, y=260)
-        Entry(win, textvariable=self.owner_national_id).place(x=110, y=260)
+        Label(win, text="Owner Nat ID").place(x=20, y=280)
+        Entry(win, textvariable=self.owner_national_id).place(x=110, y=280)
 
         # Find_By_Plate
         self.find_by_plate = StringVar()
@@ -156,10 +158,10 @@ class CarView:
         self.find_entry = Entry(win, textvariable=self.find_by_plate)
         self.find_entry.place(x=365, y=20)
 
-        Button(win, text="Save", width=7, command=self.save_click).place(x=20, y=310)
-        Button(win, text="Edit", width=7, command=self.edit_click).place(x=100, y=310)
-        Button(win, text="Remove", width=7, command=self.remove_click).place(x=180, y=310)
-        Button(win, text="New", width=7, command=self.reset_click).place(x=20, y=350)
+        Button(win, text="Save", width=7, command=self.save_click).place(x=20, y=330)
+        Button(win, text="Edit", width=7, command=self.edit_click).place(x=100, y=330)
+        Button(win, text="Remove", width=7, command=self.remove_click).place(x=180, y=330)
+        Button(win, text="New", width=7, command=self.reset_click).place(x=20, y=370)
         self.table = ttk.Treeview(
             win,
             columns=(1, 2, 3, 4, 5, 6, 7),
